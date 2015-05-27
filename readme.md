@@ -6,7 +6,7 @@ Subtitles is fetched through MusiXmatch API.
 
 ## Dependencies
 Need **[HTK](http://htk.eng.cam.ac.uk/)** and **[SoX](http://sox.sourceforge.net/)** to work. 
-Required Python Libraries: **[Python wrap of MusiXmatch API](https://github.com/utstikkar/pyMusiXmatch)**, **[musicplayer](http://).
+Required Python Libraries: **[Python wrap of MusiXmatch API](https://github.com/utstikkar/pyMusiXmatch)**, **[musicplayer](http://)**.
 
 Please install these tools on your own computer.
 
