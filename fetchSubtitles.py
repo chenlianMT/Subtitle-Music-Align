@@ -32,6 +32,12 @@ def writeSubtitleFile(input, filename, mode="wt"):
     with open(filename, mode) as fout:
         fout.write(input)
 
+# randomly fetch subtitles from MusiXmatch
+def randomFetch(number):
+
+
+
+
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] in \
             ('help', '-help', '--help', 'h', '-h', '--h'):
