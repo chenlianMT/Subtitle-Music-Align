@@ -33,12 +33,13 @@ class EventBasedAnimationClass(object):
     def handler(self):
             exit(-1)
 
-    def run(self):
+    def run(self, numberOfSubtitles=2):
         # create the root and the canvas
         self.root = Tk()
         self.root.wm_title("Lyrics Aligner")
         self.canvas = Canvas(self.root, width=self.width, height=self.height)
         self.canvas.pack()
+        self.numOfSubs = numberOfSubtitles
         self.initAnimation()
         # set up events
         # DK: You can use a local function with a closure

@@ -1,4 +1,4 @@
-import align, re
+import align, re, os.path
 
 
 # global variable
@@ -24,6 +24,7 @@ class FakeMusiXmatchSong(object):
     def setWav(self, dir):
         self.song = MusiXmatchSong(dir)
         self.song.name = self.name
+        self.song.subtitle = "./data/" + self.name + ".subtitle"
 
 class Song(object):
     def __init__(self, dir):
@@ -45,8 +46,8 @@ class Song(object):
         return self.f.tell()
 
     def align_subtitle(self):
-        output = self.url[:-3] + "result"   # store result
-        referenceFile = self.url[:-3] + "reference"
+        output = self.subtitle[:-8] + "result"   # store result with subtitle file
+        referenceFile = self.subtitle[:-8] + "reference"
         print "lalala:", self.url, self.subtitle
         align.run(self.url, self.subtitle, output)
 
@@ -54,8 +55,14 @@ class Song(object):
         lyrics = self.getLyrics(self.subtitle)
 
         # get references and stamps
-        with open(referenceFile, "r") as rf:
-            references = rf.readlines()
+        if os.path.isfile(referenceFile):
+            with open(referenceFile, "r") as rf:
+                references = rf.readlines()
+        else:
+            references = []
+
+
+
         with open(output, "r") as of:
             stamps = of.readlines()
 

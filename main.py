@@ -6,6 +6,7 @@ from songClass import *
 import tkFileDialog, tkMessageBox
 from customText import CustomText
 from musicplayer import createPlayer
+from fetchSubtitles import randomFetch
 
 
 class Visualization(EventBasedAnimationClass):
@@ -33,7 +34,7 @@ class Visualization(EventBasedAnimationClass):
         self.onPlay = None
         self.nextArrowPos = (1, 1)
         self.startTime = time.time()
-        self.initSongs(2)
+        self.initSongs()
         self.lyrics = []   # for the on play song
         self.references = []
         self.stamps = []
@@ -58,13 +59,19 @@ class Visualization(EventBasedAnimationClass):
         self.lineNumber = -1
 
 
-    def initSongs(self, number):
+    def initSongs(self):
         # should add randomly got songs from MusiXmatch, fetch subtitle here
         self.posSongBalls = []
-        self.setSongBalls(number)
         self.songBalls = [FakeDefaultSong("Creep"),
                           FakeDefaultSong("Blank Space")]
-
+        if self.numOfSubs > 2:
+            fileNames = randomFetch(self.numOfSubs - 2)
+            if fileNames:
+                for fileName in fileNames:
+                    fileName = fileName[:-9]
+                    self.songBalls.append(FakeMusiXmatchSong(fileName))
+        self.numOfSubs = len(self.songBalls)
+        self.setSongBalls(self.numOfSubs)
 
     def onMousePressed(self, event):
         if self.inSubScreen:
@@ -260,7 +267,6 @@ class Visualization(EventBasedAnimationClass):
             self.textWidgetRef.config(state=DISABLED)
 
 
-
     def drawProcessing(self):
         self.canvas.create_text(300, 220, text="Processing...",
                                 font="Helvetica 20")
@@ -290,4 +296,4 @@ class Visualization(EventBasedAnimationClass):
         return "#%02x%02x%02x" % (red, green, blue)
 
 if __name__ == '__main__':
-    Visualization().run()
+    Visualization().run(3)
