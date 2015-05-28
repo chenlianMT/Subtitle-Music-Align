@@ -72,6 +72,7 @@ class Visualization(EventBasedAnimationClass):
                     self.songBalls.append(FakeMusiXmatchSong(fileName))
         self.numOfSubs = len(self.songBalls)
         self.setSongBalls(self.numOfSubs)
+        print self.numOfSubs
 
     def onMousePressed(self, event):
         if self.inSubScreen:
@@ -214,8 +215,6 @@ class Visualization(EventBasedAnimationClass):
                 index = word[1]
                 if j == len(self.stamps[self.lineNumber]) - 1:
                     if elapsedTime > start:
-                        print index
-                        print self.currentContent.split()
                         self.currentWord = self.currentContent.split()[index]
                 else:
                     nextWord = self.stamps[self.lineNumber][j + 1]
@@ -268,7 +267,7 @@ class Visualization(EventBasedAnimationClass):
 
 
     def drawProcessing(self):
-        self.canvas.create_text(300, 220, text="Processing...",
+        self.canvas.create_text(300, 220, text="Ops. Something happened in your files...",
                                 font="Helvetica 20")
 
     def drawSongBalls(self):
@@ -296,4 +295,4 @@ class Visualization(EventBasedAnimationClass):
         return "#%02x%02x%02x" % (red, green, blue)
 
 if __name__ == '__main__':
-    Visualization().run(3)
+    Visualization().run(5)

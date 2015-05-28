@@ -1,4 +1,4 @@
-import align, re, os.path
+import align, re, os.path, codecs
 
 
 # global variable
@@ -158,8 +158,26 @@ class Song(object):
     def getLyrics(subtitleFile):
         # return list in format [[time, content], [...], ...]
 
-        with open(subtitleFile, "r") as sf:
-            lines = sf.readlines()
+        try:  # try UTF-16 encoding first
+            t = codecs.open(subtitleFile, 'rU', encoding='utf-16')
+            lines = t.readlines()
+            print "Encoding is UTF-16!"
+        except UnicodeError:
+            try:  # then UTF-8
+                t = codecs.open(subtitleFile, 'rU', encoding='utf-8')
+                lines = t.readlines()
+                lines = subtitleFile(lines)
+                print "Encoding is UTF-8!"
+            except UnicodeError:
+                print "error!!!!!!!"
+                try:  # then Windows encoding
+                    t = codecs.open(subtitleFile, 'rU', encoding='windows-1252')
+                    lines = t.readlines()
+                    print "Encoding is Windows-1252!"
+                except UnicodeError:
+                    t = open(subtitleFile, 'rU')
+                    lines = t.readlines()
+                    print "Encoding is ASCII!"
 
         lyrics = []
         for line in lines:
@@ -169,12 +187,15 @@ class Song(object):
                 content = line[index + 1:]
                 if len(content.split()):    # this line has content
                     content = content.strip()
-                    min = float(time[1:3])
-                    sec = float(time[4:9])
+                    index = time.find("[")
+                    min = float(time[index+1:index+3])
+                    sec = float(time[index+4:index+9])
                     time = min * 60 + sec
                     lyrics.append([time, content])
 
         return lyrics
+
+Song("./data/default-Creep.wav").getLyrics("/Users/chenlian/Documents/Subtitle_Music_Alignment/data/Whatever-Oasis.subtitle")
 
 
 class DefaultSong(Song):
